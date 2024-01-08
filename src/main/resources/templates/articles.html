@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org/">
+    <title>Title</title>
+</head>
+<body>
+<p>게시글 보기</p>
+<ul>
+    <li th:each="article : ${articles}">[[${article.title}]]</li>
+</ul>
+
+<p><a th:href="|/boards/${boardId}/article|">게시글 작성</a></p>
+</body>
+</html>
