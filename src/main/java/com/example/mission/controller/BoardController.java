@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BoardController {
     private final BoardService boardService;
     private final ArticleService articleService;
-    private final CommentService commentService;
 
     @GetMapping
     public String readAllCategory(Model model) {
@@ -30,13 +29,20 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public String readAllArticle(@PathVariable Long boardId, Model model) {
         model.addAttribute("articles", articleService.readAllByBoardId(boardId));
+        model.addAttribute("category", boardService.read(boardId).getCategory());
         return "articles";
+    }
+
+    @GetMapping("/{boardId}/article")
+    public String articleWriteForm(@PathVariable Long boardId, Model model) {
+        model.addAttribute("boardId", boardId);
+        return "articleForm";
     }
 
     @PostMapping("/{boardId}/article")
     public String createArticle(@PathVariable Long boardId, ArticleDto articleDto) {
         Long articleId = articleService.create(articleDto, boardId);
-        return "redirect:/boards/" + boardId + "/article/" + articleId;
+        return "redirect:/articles/" + articleId;
     }
 }
 

@@ -16,4 +16,9 @@ public class BoardService {
     public List<Board> readAll() {
         return boardRepository.findAll();
     }
+
+    public Board read(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("카테고리가 없습니다."));
+        return board;
+    }
 }

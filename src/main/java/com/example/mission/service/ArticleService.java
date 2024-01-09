@@ -25,7 +25,8 @@ public class ArticleService {
         article.setWrittenDate(LocalDateTime.now());
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시판 없음"));
         article.setBoard(board);
-        return boardId;
+        articleRepository.save(article);
+        return article.getId();
     }
 
     // 카테고리에 해당하는 게시글 전부 조회

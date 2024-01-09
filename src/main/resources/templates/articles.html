@@ -7,9 +7,9 @@
 <body>
 <p>게시글 보기</p>
 <ul>
-    <li th:each="article : ${articles}">[[${article.title}]]</li>
+    <li th:each="article : ${articles}"><a th:href="|/articles/${article.id}|">[[${article.title}]]</a></li>
 </ul>
 
-<p><a th:href="|/boards/${boardId}/article|">게시글 작성</a></p>
+<p><a th:href="|/boards/${boardId}/article|">[[${category}]] 작성</a></p>
 </body>
 </html>

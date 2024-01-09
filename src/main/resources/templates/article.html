@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org/">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<p><a th:href="|/boards|">HOME</a></p>
+<p class="m-auto fs-4">제목 : [[${article.title}]]</p>
+<p>내용 : [[${article.content}]]</p>
+
+<div>
+    <p>댓글</p>
+    <form th:action=|/articles/${articleId}/comment| method="post">
+        <label>제목: <input type="text" name="title"></label>
+        <label>내용: <input type="text" name="content"></label>
+        <label>비밀번호: <input type="password" name="password"></label>
+        <input type="submit" value="댓글 작성">
+    </form>
+    <p>댓글 목록</p>
+    <ul>
+        <li th:each="comment:${comments}">[[${comment.title}]] 내용 : [[${comment.content}]]</li>
+    </ul>
+</div>
+</body>
+</html>

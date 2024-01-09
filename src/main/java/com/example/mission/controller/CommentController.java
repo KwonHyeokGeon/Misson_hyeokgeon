@@ -1,12 +1,8 @@
 package com.example.mission.controller;
+import org.springframework.stereotype.Controller;
 
-import lombok.Data;
-
-@Data
+@Controller
 public class CommentController {
-    private Long id;
-    private String title;
-    private String content;
-    private String password;
+
 }
 
