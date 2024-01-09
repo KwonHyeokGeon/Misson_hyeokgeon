@@ -17,7 +17,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
 
-    public Long create(ArticleDto articleDto, Long boardId){
+    // 게시글 작성
+    public Long create(ArticleDto articleDto, Long boardId) {
         Article article = new Article();
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
@@ -35,12 +36,39 @@ public class ArticleService {
     }
 
     // 전체 게시글 조회
-    public List<Article> readAll(){
+    public List<Article> readAll() {
         return articleRepository.findAllByOrderByWrittenDateDesc();
     }
 
     // 단일 게시글 조회
     public Article readArticle(Long articleId) {
-        return articleRepository.findById(articleId).orElseThrow(()-> new IllegalArgumentException("게시글 없음"));
+        return articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+    }
+
+    // 게시글 업데이트
+    public Long update(ArticleDto articleDto, Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+        if (!articleDto.getPassword().equals(article.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        article.setTitle(articleDto.getTitle());
+        article.setContent(articleDto.getContent());
+        articleRepository.save(article);
+        return article.getId();
+    }
+
+    public Article delete(ArticleDto articleDto, Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+        if (article.getPassword().equals(articleDto.getPassword())) {
+            articleRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("비밀번호가 일치하지않음");
+        }
+        return article;
+    }
+
+    public boolean passwordCheck(Long articleId, String password) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("없음"));
+        return article.getPassword().equals(password);
     }
 }

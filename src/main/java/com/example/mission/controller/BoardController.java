@@ -39,7 +39,7 @@ public class BoardController {
         return "articleForm";
     }
 
-    @PostMapping("/{boardId}/article")
+    @PostMapping("/{boardId}/article/new")
     public String createArticle(@PathVariable Long boardId, ArticleDto articleDto) {
         Long articleId = articleService.create(articleDto, boardId);
         return "redirect:/articles/" + articleId;

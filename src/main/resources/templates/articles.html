@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org/">
     <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<p>게시글 보기</p>
-<ul>
-    <li th:each="article : ${articles}"><a th:href="|/articles/${article.id}|">[[${article.title}]]</a></li>
-</ul>
+<div class="g-3">
+    <p><a th:href="|/boards|">HOME</a></p>
+    <h1 class="fs-3">[[${category}]]</h1>
+    <p>게시글 보기</p>
+    <ul>
+        <li th:each="article : ${articles}"><a th:href="|/articles/${article.id}|">[[${article.title}]]</a></li>
+    </ul>
 
-<p><a th:href="|/boards/${boardId}/article|">[[${category}]] 작성</a></p>
+    <p><a th:href="|/boards/${boardId}/article|">[[${category}]] 작성</a></p>
+</div>
 </body>
 </html>

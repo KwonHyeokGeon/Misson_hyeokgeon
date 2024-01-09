@@ -5,24 +5,58 @@
     <title>Title</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<p><a th:href="|/boards|">HOME</a></p>
-<p class="m-auto fs-4">제목 : [[${article.title}]]</p>
-<p>내용 : [[${article.content}]]</p>
-
-<div>
-    <p>댓글</p>
-    <form th:action=|/articles/${articleId}/comment| method="post">
-        <label>제목: <input type="text" name="title"></label>
-        <label>내용: <input type="text" name="content"></label>
-        <label>비밀번호: <input type="password" name="password"></label>
-        <input type="submit" value="댓글 작성">
-    </form>
-    <p>댓글 목록</p>
-    <ul>
-        <li th:each="comment:${comments}">[[${comment.title}]] 내용 : [[${comment.content}]]</li>
-    </ul>
+<div class="p-3">
+    <div class="d-flex gap-5">
+        <p><a th:href="|/boards|">HOME</a></p>
+        <p><a th:href="|/boards/${boardId}|">[[${category}]]</a></p>
+    </div>
+    <p class="m-auto fs-4">제목 : [[${article.title}]]</p>
+    <p class="fs-4">내용 : [[${article.content}]]</p>
+    <div class="">
+        <p>게시글 삭제</p>
+        <form id="deleteForm" th:action="|/articles/${articleId}/delete|" method="post">
+            <label>비밀번호확인 <input type="password" id="pw" name="password"></label>
+            <div id="delete">삭제</div>
+        </form>
+    </div>
+    <div>
+        <p>댓글</p>
+        <form th:action=|/articles/${articleId}/comment| method="post">
+            <label>제목: <input type="text" name="title"></label>
+            <label>내용: <input type="text" name="content"></label>
+            <label>비밀번호: <input type="password" name="password"></label>
+            <input type="submit" value="댓글 작성">
+        </form>
+        <div class="bg-black mt-2" style="height: 2px"></div>
+        <p class="mt-4">댓글 목록</p>
+        <ul>
+            <li th:each="comment:${comments}">제목:[[${comment.title}]] <span
+                    class="ms-4">내용 : [[${comment.content}]]</span></li>
+        </ul>
+    </div>
 </div>
 </body>
+<script th:inline="javascript">
+    const articleId = [[${articleId}]]
+    document.querySelector("#delete").addEventListener('click', () => {
+        axios.post(`/articles/${articleId}/password-check`, {
+            password: document.querySelector("#pw").value
+        }).then(res => {
+            if (res.data) {
+                document.querySelector("#deleteForm").submit();
+            } else {
+                alert("비밀번호가 일치하지 않습니다.")
+            }
+        }).catch((e)=> {
+            alert("서버가 응답하지 않습니다.")
+        });
+    })
+
+    document.querySelector("#deleteForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+    })
+</script>
 </html>

@@ -26,7 +26,8 @@ public class CommentService {
         return article.getId();
     }
 
-    public List<Comment> readAll(){
-        return commentRepository.findAll();
+    // 해당 게시글에 포함된 댓글 읽기
+    public List<Comment> readByArticleId(Long articleId) {
+        return commentRepository.findCommentByArticleId(articleId);
     }
 }
