@@ -30,4 +30,10 @@ public class CommentService {
     public List<Comment> readByArticleId(Long articleId) {
         return commentRepository.findCommentByArticleId(articleId);
     }
+
+    public void delete(CommentDto commentDto, Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("댓글이 없습니다."));
+        if (commentDto.getPassword().equals(comment.getPassword()))
+            commentRepository.deleteById(commentId);
+    }
 }

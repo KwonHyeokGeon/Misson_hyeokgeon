@@ -15,11 +15,15 @@
     </div>
     <p class="m-auto fs-4">제목 : [[${article.title}]]</p>
     <p class="fs-4">내용 : [[${article.content}]]</p>
+
+    <div class="">
+        <p><a th:href="|/articles/${articleId}/update|">게시글 업데이트</a></p>
+    </div>
     <div class="">
         <p>게시글 삭제</p>
         <form id="deleteForm" th:action="|/articles/${articleId}/delete|" method="post">
             <label>비밀번호확인 <input type="password" id="pw" name="password"></label>
-            <div id="delete">삭제</div>
+            <button id="delete">삭제</button>
         </form>
     </div>
     <div>
@@ -36,6 +40,10 @@
             <li th:each="comment:${comments}">제목:[[${comment.title}]] <span
                     class="ms-4">내용 : [[${comment.content}]]</span></li>
         </ul>
+<!--        <form th:action="|/articles/${articleId}/comment/${commentId}/delete|">-->
+<!--            <label>비밀번호확인 <input type="password" name="password"></label>-->
+<!--            <button>삭제</button>-->
+<!--        </form>-->
     </div>
 </div>
 </body>
@@ -50,7 +58,7 @@
             } else {
                 alert("비밀번호가 일치하지 않습니다.")
             }
-        }).catch((e)=> {
+        }).catch((e) => {
             alert("서버가 응답하지 않습니다.")
         });
     })

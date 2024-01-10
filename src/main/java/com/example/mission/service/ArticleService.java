@@ -7,6 +7,7 @@ import com.example.mission.repository.ArticleRepository;
 import com.example.mission.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,7 +46,8 @@ public class ArticleService {
         return articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
     }
 
-    // 게시글 업데이트
+    // 게시글 업데이트 - save메서드 없이 dirty check로
+    @Transactional
     public Long update(ArticleDto articleDto, Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
         if (!articleDto.getPassword().equals(article.getPassword())) {
@@ -53,7 +55,6 @@ public class ArticleService {
         }
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
-        articleRepository.save(article);
         return article.getId();
     }
 
