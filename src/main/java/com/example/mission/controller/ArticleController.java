@@ -2,12 +2,11 @@ package com.example.mission.controller;
 
 import com.example.mission.dto.ArticleDto;
 import com.example.mission.dto.CommentDto;
+import com.example.mission.dto.CommentPasswordDto;
 import com.example.mission.dto.PasswordDto;
 import com.example.mission.entity.Article;
-import com.example.mission.repository.ArticleRepository;
-import com.example.mission.repository.BoardRepository;
+
 import com.example.mission.service.ArticleService;
-import com.example.mission.service.BoardService;
 import com.example.mission.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,15 +61,24 @@ public class ArticleController {
     }
 
     // 삭제하기 전 패스워드 일치여부 확인
+    // article password
     @PostMapping("/{articleId}/password-check")
     public ResponseEntity<Boolean> passwordCheck(@PathVariable Long articleId, @RequestBody PasswordDto passwordDto) {
         boolean isBoolean = articleService.passwordCheck(articleId, passwordDto.getPassword());
         return ResponseEntity.status(HttpStatus.OK).body(isBoolean);
     }
 
+    // commment password
+    @PostMapping("/{articleId}/commentPassword-check")
+    public ResponseEntity<Boolean> commentPasswordCheck(@RequestBody CommentPasswordDto commentPasswordDto) {
+        boolean isBoolean = commentService.passwordCheck(commentPasswordDto.getCommentId(), commentPasswordDto.getPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(isBoolean);
+    }
+
     // 댓글 삭제
-//    @PostMapping("/{articleId}/comment/{commentId}/delete")
-//    public void deleteComment(@PathVariable Long commentId, CommentDto commentDto) {
-//        commentService.delete(commentDto, commentId);
-//    }
+    @PostMapping("/{articleId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long commentId, @PathVariable Long articleId, CommentDto commentDto) {
+        commentService.delete(commentDto, commentId);
+        return "redirect:/articles/" + articleId;
+    }
 }

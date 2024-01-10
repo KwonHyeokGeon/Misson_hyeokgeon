@@ -7,6 +7,7 @@ import com.example.mission.repository.ArticleRepository;
 import com.example.mission.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,12 +16,13 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
+
     public Long create(CommentDto commentDto, Long articleId) {
         Comment comment = new Comment();
         comment.setTitle(commentDto.getTitle());
         comment.setContent(commentDto.getContent());
         comment.setPassword(commentDto.getPassword());
-        Article article = articleRepository.findById(articleId).orElseThrow(()-> new IllegalArgumentException("게시글이 없습니다."));
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
         comment.setArticle(article);
         commentRepository.save(comment);
         return article.getId();
@@ -31,9 +33,15 @@ public class CommentService {
         return commentRepository.findCommentByArticleId(articleId);
     }
 
+    @Transactional
     public void delete(CommentDto commentDto, Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("댓글이 없습니다."));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글이 없습니다."));
         if (commentDto.getPassword().equals(comment.getPassword()))
-            commentRepository.deleteById(commentId);
+            commentRepository.delete(comment);
+    }
+
+    public boolean passwordCheck(Long commentId, String password) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글이 없습니다."));
+        return comment.getPassword().equals(password);
     }
 }
