@@ -39,14 +39,14 @@
   * 댓글을 작성할 때 제목, 내용, 비밀번호를 제출한다.
   * 댓글 수정 및 삭제는 게시글 수정 및 삭제 기능과 동일하다.
 
-#  💊 진행 중 발생한 어려움 
-
+#  💊 진행 중 발생한 어려움
 <details>
 <summary><strong>1. There was an unexpected error (type=Internal Server Error, status=500).
 Name for argument of type [java.lang.Long] not specified, and parameter name information not available via reflection. </strong></summary>
 
 <div markdown="1"> 
-접속에 문제가 없음을 확인하고 이후 코드변경이 없었음에도 불구하고 article/{articleId}로 단일게시글을 조회하려할 때 제목에 상기한 에러가 발생했다.
+
+* 접속에 문제가 없음을 확인하고 이후 코드변경이 없었음에도 불구하고 article/{articleId}로 단일게시글을 조회하려할 때 제목에 상기한 에러가 발생했다.
 코드가 같은데 어쩔 땐 접속이 되고 어쩔 땐 에러가 발생하여 controller나 service의 문제는 아닌 것 같아 검색해보니 에러 메세지 그대로 클래스 파일의 파라미터 이름 정보가 없는 것이 문제인 것 같았다.
 </div>
 
@@ -55,7 +55,7 @@ public String readOne(@PathVariable Long articleId, Model model) {
     // 메소드 내용...
 }
 ``` 
-위의 코드는 @PathVariable의 name과 파라미터명이 동일하여 @PathVariable(name = "articleId")이 생략되어 있는 상태이다
+* 위의 코드는 @PathVariable의 name과 파라미터명이 동일하여 @PathVariable(name = "articleId")이 생략되어 있는 상태이다
 생략했을 때 컴파일러 debug모드 컴파일이 설정되어있어야만 스프링이 @PathVariable의 name을 찾을 수 있다고 한다.
 - build.gradle에 아래의 코드 추가
 ```
@@ -65,26 +65,23 @@ compileJava {
 	options.encoding = 'UTF-8'
 }
 ```
-
 </details>
 <details>
-<summary><strong>2. 비밀번호 인증 </strong></summary>
-<div> 
-게시글이나 댓글 수정 및 삭제 시 비밀번호가 일치하지 않을 경우 return boolean으로  alert창에서 '비밀번호가 일치하지 않습니다' 을 띄우고 싶었다.
-비밀번호가 일치하는 지 아닌 지는 controller에서 비교하는데 controller의 return 값을 자바스크립트에서 어떻게 가져올 지가 문제였다.
-controller에서 model로 전달해도 되지만 axios로 post요청을 보내는 포스팅을 보고 따라해보았다. button을 클릭하면 비밀번호 인증경로로 입력된 password를 전송해
-일치여부에 따라 받아온 response.data로 form을 제출할지 alert를 띄울 지 동작하도록했다.
-RequestBody로 프론트에서 컨트롤러로 데이터를 받아와서 ResponseEntity를 사용해서 컨트롤러에서 프론트로 값을 넘겨줬다. 
-</div>
+  <summary><strong> 2. 비밀번호 인증 </strong></summary>
+
+* 게시글이나 댓글 수정 및 삭제 시 비밀번호가 일치하지 않을 경우 return boolean으로 alert창에서 '비밀번호가 일치하지 않습니다'을 띄우고 싶었다. 
+
+* 비밀번호가 일치하는 지 아닌 지는 controller에서 비교하는데 controller의 return 값을 자바스크립트에서 어떻게 가져올 지가 문제였다. controller에서 model로 전달해도 되지만 axios로 post요청을 보내는 포스팅을 보고 따라해보았다.
+
+* button을 클릭하면 비밀번호 인증 경로로 입력된 password를 전송해 일치여부에 따라 받아온 response.data로 form을 제출할지 alert를 띄울 지 동작하도록 했다. RequestBody로 프론트에서 컨트롤러로 데이터를 받아와서 ResponseEntity를 사용해서 컨트롤러에서 프론트로 값을 넘겨줬다.
 </details>
+
 <details>
 <summary><strong>3. 게시글 삭제 후 뒤로가기</strong></summary>
-<div> 
-게시글 삭제 후 redirect:/boards/{boardId}로 이동하는데 여기서 뒤로가기 하면 게시글이 이미 DB에서 삭제되었음에도 삭제 이전화면에 값이 input value에 들어간 채로
-남아있었고 그 상태에서 새로고침을 하면 에러페이지가 나온다. 이건 해결하지못했다.
-</div>
-</details>
 
+* 게시글 삭제 후 redirect:/boards/{boardId}로 이동하는데 여기서 뒤로가기 하면 게시글이 이미 DB에서 삭제되었음에도 삭제 이전화면에 값이 input value에 들어간 채로 남아있었고 그 상태에서 새로고침을 하면 에러페이지가 나온다. 
+* 이건 해결하지못했다.
+</details>
 
 
 
