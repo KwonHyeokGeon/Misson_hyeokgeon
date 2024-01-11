@@ -48,6 +48,8 @@ Name for argument of type [java.lang.Long] not specified, and parameter name inf
 <div markdown="1"> 
 접속에 문제가 없음을 확인하고 이후 코드변경이 없었음에도 불구하고 article/{articleId}로 단일게시글을 조회하려할 때 제목에 상기한 에러가 발생했다.
 코드가 같은데 어쩔 땐 접속이 되고 어쩔 땐 에러가 발생하여 controller나 service의 문제는 아닌 것 같아 검색해보니 에러 메세지 그대로 클래스 파일의 파라미터 이름 정보가 없는 것이 문제인 것 같았다.
+</div>
+
 ```
 public String readOne(@PathVariable Long articleId, Model model) {
     // 메소드 내용...
@@ -64,7 +66,6 @@ compileJava {
 }
 ```
 
-</div>
 </details>
 
 
