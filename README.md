@@ -1,22 +1,20 @@
 #  🍳Overview
 
 ### 익명 의견 교환 게시판
-사용자들이 자기 자신의 정보를 드러낼 필요 없이 의견을 교환할 수 있는 웹페이지입니다.
 
-단, 작성한 사람이 원한다면 수정, 삭제가 가능합니다!
 
 #  🚩Project
 <details>
 <summary><strong>ERD</strong></summary>
 <div markdown="1"> 
-  <img width="772" alt="image" src="https://github.com/simidot/Mission_youshin/assets/114278754/0068d3e6-0c6d-4316-92b4-8c24874b2387">
+  <img alt="image" src="https://github.com/KwonHyeokGeon/Misson_hyeokgeon/blob/main/src/main/resources/static/images/erd.png">
 </div>
 </details>
 
 <details>
-  <summary><strong>간단한 화면 구상</strong></summary>
+  <summary><strong>URL</strong></summary>
 <div markdown="1">
-  <img src="https://github.com/simidot/Mission_youshin/assets/114278754/7dc7dc9f-aebd-431b-94dd-cfa7b0fd937f">
+  <img src="https://github.com/KwonHyeokGeon/Misson_hyeokgeon/blob/main/src/main/resources/static/images/endpoint.png">
 </div>
 </details>
 
@@ -24,46 +22,48 @@
 #  📍 주요 기능
 
 ## 필수 과제
-### 1. 게시판 조회 기능
-- 사용자는 같은 주제로 작성된 게시글들을 모아 조회할 수 있다.
-- 또한 전체 게시글을 위한 전체 게시판이 존재한다.
-- 자유/개발/일상/사건사고 게시판이 존재한다.
-
-### 2. 게시글 작성 기능
-- 사용자는 하나의 주제에 대한 의견 교환 글을 작성할 수 있다.
-- 제목, 내용으로 구성되어 있고, 본인확인을 위한 비밀번호를 작성해야 한다.
-
-### 3. 게시글 조회 및 수정/삭제 기능
-- 모든 게시글을 조회할 수 있다.
-- 본인확인 비밀번호 입력 후 게시글을 수정/삭제 할 수 있다. 
-
-### 4. 댓글 기능
-- 사용자는 게시글 조회 페이지에서 댓글을 작성할 수 있다.
-- 댓글 작성자는 본인확인을 위한 비밀번호도 함께 작성해야 한다.
-- 댓글 목록은 조회 페이지에서 확인이 가능하다.
-- 댓글 삭제는 본인확인 비밀번호 입력 후 삭제가 가능하다. 
-
-## 도전 과제
-### 1. 검색 기능
-- 사용자는 게시글 목록 페이지와 개별 게시판 조회 페이지에서 검색이 가능하다.
-- 검색은 전체/제목/내용을 기준으로 검색이 가능하다.
-- 개별 게시판이 선택된 상태에서는 해당 게시판 내에서만 검색이 가능하다.
-
-#  🚀 참여자 (24.01.08 ~ 24.01.12)
-
-|<img src="" width="160" height="160"/><br/>BE OOO <a href="">GitHub</a>|
-|:---:|
-
-
+### 1. 게시판 기능
+* Board
+  * 게시판의 목록과 선택한 게시판의 게시글을 볼 수 있다.
+  * 모든 게시판의 게시글 전체를 볼 수 있다
+### 2. 게시글 기능
+* Article
+  * 게시글을 작성할 때 제목, 내용, 비밀번호를 제출한다.
+  * 각 게시글은 단일 게시글 화면이 존재한다.
+  * 게시글 작성 시 입력했던 비밀번호와 수정 및 삭제 시 입력한 비밀번호를 비교하여 일치할 때 수정 및 삭제가 이루어진다.
+  * 비밀번호가 일치하지 않을 때 경고창을 띄운다.
+  
+### 3. 댓글 기능
+* Comment
+  * 단일 게시글 화면에서 댓글 작성, 수정 및 삭제가 가능하다
+  * 댓글을 작성할 때 제목, 내용, 비밀번호를 제출한다.
+  * 댓글 수정 및 삭제는 게시글 수정 및 삭제 기능과 동일하다.
 
 #  💊 진행 중 발생한 어려움 
 
 <details>
-<summary><strong>1. ~~ </strong></summary>
+<summary><strong>1. There was an unexpected error (type=Internal Server Error, status=500).
+Name for argument of type [java.lang.Long] not specified, and parameter name information not available via reflection. </strong></summary>
 
 <div markdown="1"> 
+접속에 문제가 없음을 확인하고 이후 코드변경이 없었음에도 불구하고 article/{articleId}로 단일게시글을 조회하려할 때 제목에 상기한 에러가 발생했다.
+코드가 같은데 어쩔 땐 접속이 되고 어쩔 땐 에러가 발생하여 controller나 service의 문제는 아닌 것 같아 검색해보니 에러 메세지 그대로 클래스 파일의 파라미터 이름 정보가 없는 것이 문제인 것 같았다.
+```
+public String readOne(@PathVariable Long articleId, Model model) {
+    // 메소드 내용...
+}
+``` 
+위의 코드는 @PathVariable의 name과 파라미터명이 동일하여 @PathVariable(name = "articleId")이 생략되어 있는 상태이다
+생략했을 때 컴파일러 debug모드 컴파일이 설정되어있어야만 스프링이 @PathVariable의 name을 찾을 수 있다고 한다.
+- build.gradle에 아래의 코드 추가
+```
+compileJava {
+	options.compilerArgs.addAll(['-parameters', '-Xlint:unchecked'])
+	options.debug = true
+	options.encoding = 'UTF-8'
+}
+```
 
-여기에 입력
 </div>
 </details>
 
@@ -72,22 +72,15 @@
 # 🖥️ 프로젝트 실행/테스트 방법
 
 #### 실행
-1. git clone
-2. 최초 실행 시 **application.yaml** 파일의 jpa.hibernate.ddl-auto:**create**로 설정을 변경하여 실행한다.
-3. 최초 실행 후에는 다시 **update**로 바꿔주면 된다.
-4. 또한, 실행 시 더미 데이터가 입력되었기 때문에, **data.sql파일의 더미데이터 부분**을 **주석처리** 한다.
-5. localhost:8080/boards로 접속하여 테스트한다.
-6. 편의를 위해 더미데이터 비밀번호는 모두 **1111**로 설정되어 있다.
+##### git clone 후 실행 전 src/main/resources/static 경로에 npm install로 package.json내의 라이브러리(bootstrap, axios) 설치 필요
+
 
 #### 테스트
 1. localhost:8080/boards에서 전체 게시판 조회
-2. 게시글 쓰기 버튼 클릭하여 게시글 작성
-3. 작성 후 홈에서 게시글 게시 확인
-4. 게시판 목록 중 카테고리 선택 후 게시글 조회
-5. 게시글 제목 클릭하여 게시글 상세조회 및 댓글 조회 (더미데이터 있음 : 다들 어떤 언어 하시나요?)
-6. 게시글 수정 비밀번호 입력 후 수정 오른쪽 확인 눌러 수정 (비밀번호 : 1111)
-7. 댓글 내용과 비밀번호 입력 후 댓글 작성
-8. 댓글 삭제 비밀번호 입력 후 삭제 오른쪽 확인 눌러 삭제 (비밀번호 : 1111)
-9. 게시글 삭제 비밀번호 입력 후 삭제 오른쪽 확인 눌러 삭제 (비밀번호 : 1111)
-10. 홈에서 검색어 입력 후 검색 (검색기준 선택 가능)
-11. 특정 게시판 내에서 검색어 입력 후 검색 (검색기준 선택 가능)
+2. 게시판으로 이동 후 작성 버튼 클릭하여 게시글 작성
+3. 작성 후 홈 및 게시판에서 게시글 게시 확인
+4. 게시글 제목 클릭하여 게시글 상세조회 및 댓글 조회
+5. 게시글 수정 비밀번호 입력 후 수정 오른쪽 확인 눌러 수정 (비밀번호 : 1111)
+6. 댓글 내용과 비밀번호 입력 후 댓글 작성
+7. 댓글 삭제 비밀번호 입력 후 삭제 오른쪽 확인 눌러 삭제 (비밀번호 : 1111)
+8. 게시글 삭제 비밀번호 입력 후 삭제 오른쪽 확인 눌러 삭제 (비밀번호 : 1111)
