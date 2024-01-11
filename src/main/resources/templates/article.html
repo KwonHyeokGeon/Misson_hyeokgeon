@@ -58,7 +58,7 @@
             password: document.querySelector("#pw").value
         }).then(res => {
             if (res.data) {
-                document.querySelector(".deleteForm").submit();
+                document.querySelector("#deleteForm").submit();
             } else {
                 alert("게시글 비밀번호가 일치하지 않습니다.")
             }

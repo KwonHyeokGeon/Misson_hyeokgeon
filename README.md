@@ -67,6 +67,25 @@ compileJava {
 ```
 
 </details>
+<details>
+<summary><strong>2. 비밀번호 인증 </strong></summary>
+<div> 
+게시글이나 댓글 수정 및 삭제 시 비밀번호가 일치하지 않을 경우 return boolean으로  alert창에서 '비밀번호가 일치하지 않습니다' 을 띄우고 싶었다.
+비밀번호가 일치하는 지 아닌 지는 controller에서 비교하는데 controller의 return 값을 자바스크립트에서 어떻게 가져올 지가 문제였다.
+controller에서 model로 전달해도 되지만 axios로 post요청을 보내는 포스팅을 보고 따라해보았다. button을 클릭하면 비밀번호 인증경로로 입력된 password를 전송해
+일치여부에 따라 받아온 response.data로 form을 제출할지 alert를 띄울 지 동작하도록했다.
+RequestBody로 프론트에서 컨트롤러로 데이터를 받아와서 ResponseEntity를 사용해서 컨트롤러에서 프론트로 값을 넘겨줬다. 
+</div>
+</details>
+<details>
+<summary><strong>3. 게시글 삭제 후 뒤로가기</strong></summary>
+<div> 
+게시글 삭제 후 redirect:/boards/{boardId}로 이동하는데 여기서 뒤로가기 하면 게시글이 이미 DB에서 삭제되었음에도 삭제 이전화면에 값이 input value에 들어간 채로
+남아있었고 그 상태에서 새로고침을 하면 에러페이지가 나온다. 이건 해결하지못했다.
+</div>
+</details>
+
+
 
 
 
