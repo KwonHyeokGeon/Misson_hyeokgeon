@@ -39,6 +39,7 @@ public class BoardController {
         return "articleForm";
     }
 
+    // 게시글 작성
     @PostMapping("/{boardId}/article/new")
     public String createArticle(@PathVariable Long boardId, ArticleDto articleDto) {
         Long articleId = articleService.create(articleDto, boardId);

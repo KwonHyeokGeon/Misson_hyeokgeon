@@ -22,9 +22,10 @@
         <p>게시글 삭제</p>
         <form id="deleteForm" th:action="|/articles/${articleId}/delete|" method="post">
             <label>비밀번호확인 <input type="password" id="pw" name="password"></label>
-            <button id="delete">삭제</button>
+            <button id="delete" class="btn btn-info">삭제</button>
         </form>
     </div>
+    <div class="bg-black mt-2" style="height: 2px"></div>
     <div>
         <p>댓글</p>
         <form th:action=|/articles/${articleId}/comment| method="post">
@@ -33,17 +34,16 @@
             <label>비밀번호: <input type="password" name="password"></label>
             <input type="submit" value="댓글 작성">
         </form>
-        <div class="bg-black mt-2" style="height: 2px"></div>
         <p class="mt-4">댓글 목록</p>
         <ul>
             <li th:each="comment:${comments}">제목:[[${comment.title}]]
                 <span class="ms-4">내용 : [[${comment.content}]]</span>
-<!--                     삭제                          -->
-                <form th:class="|commentForm${comment.id}|"
+                <!--                     삭제                          -->
+                <form th:class="|commentForm${comment.id} commentForm|"
                       th:action="|/articles/${articleId}/comment/${comment.id}/delete|" method="post">
                     <label>비밀번호확인 <input th:class="|pwInput${comment.id}|" type="password" name="password"></label>
                     <button th:commentId="${comment.id}" th:class="|commentDelete${comment.id}|"
-                            th:onclick="deleteComment(this.getAttribute('commentId'))">삭제
+                            th:onclick="deleteComment(this.getAttribute('commentId'))" type="button">삭제
                     </button>
                 </form>
             </li>
@@ -54,7 +54,6 @@
 </body>
 <script th:inline="javascript">
     const articleId = [[${articleId}]]
-
     document.querySelector("#delete").addEventListener('click', (e) => {
         axios.post(`/articles/${articleId}/password-check`, {
             password: document.querySelector("#pw").value
@@ -62,7 +61,7 @@
             if (res.data) {
                 document.querySelector(".deleteForm").submit();
             } else {
-                alert("비밀번호가 일치하지 않습니다.")
+                alert("게시글 비밀번호가 일치하지 않습니다.")
             }
         }).catch(() => {
             alert("서버가 응답하지 않습니다.")
@@ -70,23 +69,30 @@
     })
 
     document.querySelector("#deleteForm").addEventListener("submit", (e) => {
+        // submit을 preventDefault로 막아 새로고침되는 것을 방지
         e.preventDefault();
     })
 
     function deleteComment(commentId) {
-        axios.post(`/articles/${articleId}/commentPassword-check`, {
+        axios.post(`/articles/${articleId}/comment-password-check`, {
             password: document.querySelector(`.pwInput${commentId}`).value,
             commentId: commentId
         }).then(res => {
             if (res.data) {
                 document.querySelector(`.commentForm${commentId}`).submit();
             } else {
-                alert("비밀번호가 일치하지 않습니다")
+                alert("댓글 비밀번호가 일치하지 않습니다")
             }
         }).catch(() => {
             alert("서버 미응답")
         })
-    };
+    }
 
+    document.querySelectorAll(".commentForm").forEach((e)=>{
+        e.addEventListener("submit", (el)=> {
+            // submit을 preventDefault로 막아 새로고침되는 것을 방지
+            el.preventDefault()
+        })
+    });
 </script>
 </html>

@@ -69,7 +69,7 @@ public class ArticleController {
     }
 
     // commment password
-    @PostMapping("/{articleId}/commentPassword-check")
+    @PostMapping("/{articleId}/comment-password-check")
     public ResponseEntity<Boolean> commentPasswordCheck(@RequestBody CommentPasswordDto commentPasswordDto) {
         boolean isBoolean = commentService.passwordCheck(commentPasswordDto.getCommentId(), commentPasswordDto.getPassword());
         return ResponseEntity.status(HttpStatus.OK).body(isBoolean);

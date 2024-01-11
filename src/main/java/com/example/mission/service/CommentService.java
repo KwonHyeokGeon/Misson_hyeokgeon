@@ -35,7 +35,7 @@ public class CommentService {
 
     @Transactional
     public void delete(CommentDto commentDto, Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글이 없습니다."));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글없다."));
         if (commentDto.getPassword().equals(comment.getPassword()))
             commentRepository.delete(comment);
     }

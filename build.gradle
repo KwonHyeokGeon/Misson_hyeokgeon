@@ -43,3 +43,9 @@ tasks.named('test') {
 tasks.withType(JavaCompile) {
 	options.compilerArgs << "-parameters"
 }
+
+compileJava {
+	options.compilerArgs.addAll(['-parameters', '-Xlint:unchecked'])
+	options.debug = true
+	options.encoding = 'UTF-8'
+}
