@@ -7,15 +7,18 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="g-3">
-    <p><a th:href="|/boards|">HOME</a></p>
+<div class="p-3 container-md border rounded m-auto vh-100">
+    <p class="btn btn-primary"><a th:href="|/boards|" class="text-light link-underline link-underline-opacity-0">HOME</a></p>
     <h1 class="fs-3">[[${category}]]</h1>
-    <p>게시글 보기</p>
-    <ul>
-        <li th:each="article : ${articles}"><a th:href="|/articles/${article.id}|">[[${article.title}]]</a></li>
-    </ul>
-
-    <p><a th:href="|/boards/${boardId}/article|">[[${category}]] 작성</a></p>
+    <div class="card">
+    <p class="card-header">게시글 목록</p>
+        <ul class="list-group list-group-flush">
+            <li class="link-opacity-50-hover list-unstyled list-group-item" th:each="article : ${articles}"><a
+                    th:href="|/articles/${article.id}|" class="link-underline link-underline-opacity-0">[[${article.title}]]</a></li>
+        </ul>
+    </div>
+    <div class="bg-black mt-2" style="height: 2px"></div>
+    <p class="mt-4 btn btn-secondary"><a th:href="|/boards/${boardId}/article|" class="text-light link-underline link-underline-opacity-0">[[${category}]] 작성</a></p>
 </div>
 </body>
 </html>

@@ -2,15 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>update</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<p>게시글 작성</p>
-<form th:action="|/boards/${boardId}/article/new|" method="post">
-    <label>제목 : <input type="text" name="title"></label>
-    <label>내용 : <input type="text" name="content"></label>
-    <label>비밀번호 : <input type="password" name="password"></label>
-    <input type="submit" value="게시글 작성">
-</form>
+<div class="p-3 container-md border rounded m-auto vh-100">
+    <p>게시글 작성</p>
+    <form th:action="|/boards/${boardId}/article/new|" method="post">
+        <label>제목 : <input type="text" name="title"></label>
+        <label>내용 : <input type="text" name="content"></label>
+        <label>비밀번호 : <input type="password" name="password"></label>
+        <input type="submit" value="게시글 작성">
+    </form>
+</div>
 </body>
 </html>

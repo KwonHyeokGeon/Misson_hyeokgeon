@@ -7,17 +7,17 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<main class="p-3">
+<main class="p-3 container-md border rounded m-auto vh-100">
     <div>
         <p class="fs-3">게시판</p>
-        <ul class="d-flex flex-column">
-            <li class="link-opacity-50-hover list-unstyled" th:each="board: ${boards}"><a th:href="|boards/${board.id}|">[[${board.category}]]</a>
+        <ul class="d-flex flex-column list-group">
+            <li class="link-opacity-50-hover list-unstyled list-group-item" th:each="board: ${boards}"><a th:href="|boards/${board.id}|" class="link-underline link-underline-opacity-0">[[${board.category}]]</a>
             </li>
         </ul>
-        <div>
+        <div class="mt-4">
             <p class="fs-5">전체 게시판</p>
-            <ul>
-                <li class="list-unstyled underline" th:each="article: ${articles}"><a th:href="|/articles/${article.id}|">[[${article.title}]]</a></li>
+            <ul class="list-group">
+                <li class="list-unstyled underline list-group-item" th:each="article: ${articles}"><a th:href="|/articles/${article.id}|" class="link-underline link-underline-opacity-0">[[${article.title}]]</a></li>
             </ul>
         </div>
     </div>
