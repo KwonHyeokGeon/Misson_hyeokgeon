@@ -10,44 +10,57 @@
 <body>
 <div class="p-3 container-md border rounded m-auto vh-100">
     <div class="d-flex gap-5">
-        <p class="btn btn-primary"><a th:href="|/boards|" class="text-light link-underline link-underline-opacity-0">HOME</a></p>
-        <p class="btn btn-secondary"><a th:href="|/boards/${boardId}|" class="text-light link-underline link-underline-opacity-0">[[${category}]]</a></p>
+        <p class="btn btn-primary"><a th:href="|/boards|" class="text-light link-underline link-underline-opacity-0">HOME</a>
+        </p>
+        <p class="btn btn-secondary"><a th:href="|/boards/${boardId}|"
+                                        class="text-light link-underline link-underline-opacity-0">[[${category}]]</a>
+        </p>
     </div>
     <p class="m-auto fs-4">제목 : [[${article.title}]]</p>
     <p class="fs-4">내용 : [[${article.content}]]</p>
     <div class="">
-        <p class="btn btn-secondary"><a class="text-light link-underline link-underline-opacity-0" th:href="|/articles/${articleId}/update|">게시글 업데이트</a></p>
+        <p class="btn btn-secondary"><a class="text-light link-underline link-underline-opacity-0 position-relative"
+                                        th:href="|/articles/${articleId}/update|">게시글 업데이트</a></p>
     </div>
-    <div class="border rounded p-3">
-        <p class="text-danger fs-5">게시글 삭제</p>
-        <form id="deleteForm" th:action="|/articles/${articleId}/delete|" method="post">
-            <label>비밀번호확인 <input type="password" id="pw" name="password"></label>
+    <div class="border rounded p-3 alert alert-danger" role="alert">
+        <form class="d-flex align-items-center" id="deleteForm" th:action="|/articles/${articleId}/delete|"
+              method="post">
+            <span class="mx-4">게시글 삭제 : </span>
+            <label class="form-label mb-0 flex-fill"><input class="form-control" type="password" id="pw" name="password"
+                                                            placeholder="비밀번호를 입력해주세요"></label>
             <button id="delete" class="btn btn-danger text-light">삭제</button>
         </form>
     </div>
-    <div class="bg-black mt-2" style="height: 2px"></div>
+    <div class="bg-black my-2" style="height: 2px"></div>
     <div>
-        <p>댓글</p>
-        <form th:action=|/articles/${articleId}/comment| method="post">
-            <label>제목: <input type="text" name="title"></label>
-            <label>내용: <input type="text" name="content"></label>
-            <label>비밀번호: <input type="password" name="password"></label>
-            <input type="submit" value="댓글 작성">
+        <div class="card my-5">
+            <p class="card-header">댓글 목록</p>
+            <ul class="list-group list">
+                <li class="list-unstyled list-group-item list-group" th:each="comment:${comments}">
+                    <span class="list-group-item">제목 : [[${comment.title}]]</span>
+                    <span class="list-group-item">내용 : [[${comment.content}]]</span>
+                    <!--                     삭제                          -->
+                    <div class="list-group-item">
+                        <form th:class="|commentForm${comment.id} commentForm input-group align-items-center mb-0 alert alert-danger|"
+                              th:action="|/articles/${articleId}/comment/${comment.id}/delete|" method="post">
+                            <span class="mx-4">댓글 삭제 : </span>
+                            <label class="flex-fill"><input th:class="|pwInput${comment.id} form-control|"
+                                                            type="password" placeholder="비밀번호를 입력해주세요" name="password"></label>
+                            <button th:commentId="${comment.id}"
+                                    th:class="|commentDelete${comment.id} btn btn-outline-secondary|"
+                                    th:onclick="deleteComment(this.getAttribute('commentId'))" type="button">삭제
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <form class="input-group" th:action=|/articles/${articleId}/comment| method="post">
+            <label class="input-group-text">제목 <input class="form-control" type="text" name="title"></label>
+            <label class="input-group-text flex-fill">내용 <input class="form-control" type="text" name="content"></label>
+            <label class="input-group-text">비밀번호 <input class="form-control" type="password" name="password"></label>
+            <input type="submit" value="댓글 작성" class="btn btn-outline-secondary">
         </form>
-        <p class="mt-4">댓글 목록</p>
-        <ul>
-            <li th:each="comment:${comments}">제목:[[${comment.title}]]
-                <span class="ms-4">내용 : [[${comment.content}]]</span>
-                <!--                     삭제                          -->
-                <form th:class="|commentForm${comment.id} commentForm|"
-                      th:action="|/articles/${articleId}/comment/${comment.id}/delete|" method="post">
-                    <label>비밀번호확인 <input th:class="|pwInput${comment.id}|" type="password" name="password"></label>
-                    <button th:commentId="${comment.id}" th:class="|commentDelete${comment.id}|"
-                            th:onclick="deleteComment(this.getAttribute('commentId'))" type="button">삭제
-                    </button>
-                </form>
-            </li>
-        </ul>
     </div>
 </div>
 <script th:inline="javascript">
@@ -86,8 +99,8 @@
         })
     }
 
-    document.querySelectorAll(".commentForm").forEach((e)=>{
-        e.addEventListener("submit", (el)=> {
+    document.querySelectorAll(".commentForm").forEach((e) => {
+        e.addEventListener("submit", (el) => {
             el.preventDefault()
         })
     });

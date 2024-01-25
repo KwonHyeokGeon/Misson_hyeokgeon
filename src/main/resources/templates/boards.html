@@ -7,7 +7,8 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<main class="p-3 container-md border rounded m-auto vh-100">
+<header class="text-sm-center"><h1 class="fs-2 fw-bold">익명 게시판</h1></header>
+<main class="p-3 container-md border rounded m-auto vh-100 my-3">
     <div>
         <p class="fs-3">게시판</p>
         <ul class="d-flex flex-column list-group">
@@ -15,7 +16,7 @@
             </li>
         </ul>
         <div class="mt-4">
-            <p class="fs-5">전체 게시판</p>
+            <p class="fs-5">전체 게시글</p>
             <ul class="list-group">
                 <li class="list-unstyled underline list-group-item" th:each="article: ${articles}"><a th:href="|/articles/${article.id}|" class="link-underline link-underline-opacity-0">[[${article.title}]]</a></li>
             </ul>
