@@ -1,8 +1,10 @@
 package com.example.mission.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class CommentPasswordDto {
     public String password;
     public Long commentId;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,23 +28,34 @@ public class ArticleService {
         article.setWrittenDate(LocalDateTime.now());
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시판 없음"));
         article.setBoard(board);
-        articleRepository.save(article);
-        return article.getId();
+        ArticleDto from = ArticleDto.from(articleRepository.save(article));
+        return from.getId();
     }
 
     // 카테고리에 해당하는 게시글 전부 조회
-    public List<Article> readAllByBoardId(Long boardId) {
-        return articleRepository.findAllByBoardIdOrderByWrittenDateDesc(boardId);
+    public List<ArticleDto> readAllByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findAllByBoardIdOrderByWrittenDateDesc(boardId);
+        List<ArticleDto> articleDto = new ArrayList<>();
+        for (Article article : articles) {
+            articleDto.add(ArticleDto.from(article));
+        }
+        return articleDto;
     }
 
     // 전체 게시글 조회
-    public List<Article> readAll() {
-        return articleRepository.findAllByOrderByWrittenDateDesc();
+    public List<ArticleDto> readAll() {
+        List<Article> articles = articleRepository.findAllByOrderByWrittenDateDesc();
+        List<ArticleDto> articleDto = new ArrayList<>();
+        for (Article article : articles) {
+            articleDto.add(ArticleDto.from(article));
+        }
+        return articleDto;
     }
 
     // 단일 게시글 조회
-    public Article readArticle(Long articleId) {
-        return articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+    public ArticleDto readArticle(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+        return ArticleDto.from(article);
     }
 
     // 게시글 업데이트 - save메서드 없이 dirty check로

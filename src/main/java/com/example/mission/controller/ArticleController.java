@@ -42,8 +42,8 @@ public class ArticleController {
     // 게시글 업데이트
     @GetMapping("/{articleId}/update")
     public String updatePage(@PathVariable Long articleId, Model model) {
-        Article article = articleService.readArticle(articleId);
-        model.addAttribute("article", article);
+        ArticleDto articleDto = articleService.readArticle(articleId);
+        model.addAttribute("article", articleDto);
         return "articleUpdate";
     }
 
