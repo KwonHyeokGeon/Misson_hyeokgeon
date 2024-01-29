@@ -67,17 +67,18 @@ public class ArticleService {
         }
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
-        return article.getId();
+        ArticleDto from = ArticleDto.from(article);
+        return from.getId();
     }
 
-    public Article delete(ArticleDto articleDto, Long id) {
+    public ArticleDto delete(ArticleDto articleDto, Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
         if (article.getPassword().equals(articleDto.getPassword())) {
             articleRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("비밀번호가 일치하지않음");
         }
-        return article;
+        return ArticleDto.from(article);
     }
 
     public boolean passwordCheck(Long articleId, String password) {

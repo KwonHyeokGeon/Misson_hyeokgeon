@@ -56,7 +56,8 @@ public class ArticleController {
     // 게시글 삭제
     @PostMapping("/{articleId}/delete")
     public String delete(@PathVariable Long articleId, ArticleDto articleDto) {
-        Long boardId = articleService.delete(articleDto, articleId).getBoard().getId();
+        ArticleDto delete = articleService.delete(articleDto, articleId);
+        Long boardId = delete.getId();
         return "redirect:/boards/" + boardId;
     }
 

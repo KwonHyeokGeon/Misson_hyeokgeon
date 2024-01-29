@@ -24,8 +24,9 @@ public class CommentService {
         comment.setPassword(commentDto.getPassword());
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
         comment.setArticle(article);
-        commentRepository.save(comment);
-        return article.getId();
+
+        CommentDto from = CommentDto.from(commentRepository.save(comment));
+        return from.getId();
     }
 
     // 해당 게시글에 포함된 댓글 읽기
