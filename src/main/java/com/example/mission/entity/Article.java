@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,4 +27,7 @@ public class Article {
     @Setter
     @ManyToOne
     private Board board;
+
+    @OneToMany(mappedBy = "article")
+    private List<Comment> comments;
 }

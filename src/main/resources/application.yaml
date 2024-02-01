@@ -12,3 +12,10 @@ spring:
   sql:
     init:
       mode: always
+#  # 정적 리소스 맵핑(url 설정)
+#  mvc:
+#    static-path-pattern: /static/images/**
+#  # 정적 리소스 디렉토리 변경(서버가 파일을 찾을 때 어디를 탐색할 지 티렉토리를 설정하는 것)
+#  web:
+#    resources:
+#      static-locations: file:media/, classpath:/static/images
