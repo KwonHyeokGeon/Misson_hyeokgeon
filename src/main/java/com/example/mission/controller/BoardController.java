@@ -7,10 +7,7 @@ import com.example.mission.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class BoardController {
     // 게시글 작성
     @PostMapping("/{boardId}/article/new")
     public String createArticle(@PathVariable Long boardId, ArticleDto articleDto) {
-        Long articleId = articleService.create(articleDto, boardId);
+        Long articleId = articleService.create(new ArticleDto(articleDto.getTitle(), articleDto.getContent(), articleDto.getPassword()), boardId);
         return "redirect:/articles/" + articleId;
     }
 }

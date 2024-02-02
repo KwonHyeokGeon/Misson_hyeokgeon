@@ -35,7 +35,7 @@ public class ArticleController {
     // 댓글 작성
     @PostMapping("/{articleId}/comment")
     public String commentWrite(@PathVariable Long articleId, CommentDto commentDto) {
-        commentService.create(commentDto, articleId);
+        commentService.create(new CommentDto(commentDto.getTitle(), commentDto.getContent(), commentDto.getPassword()), articleId);
         return "redirect:/articles/" + articleId;
     }
 
