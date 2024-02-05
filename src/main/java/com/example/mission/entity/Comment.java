@@ -21,5 +21,6 @@ public class Comment {
 
     @Setter
     @ManyToOne
+    @JoinColumn(name = "article_id")
     private Article article;
 }

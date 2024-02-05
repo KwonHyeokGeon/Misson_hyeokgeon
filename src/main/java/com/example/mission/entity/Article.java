@@ -28,6 +28,7 @@ public class Article {
 
     @Setter
     @ManyToOne
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @OneToMany(mappedBy = "article")

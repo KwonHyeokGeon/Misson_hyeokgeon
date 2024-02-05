@@ -1,8 +1,6 @@
 package com.example.mission.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
