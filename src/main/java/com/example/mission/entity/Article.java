@@ -1,17 +1,16 @@
 package com.example.mission.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Entity
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,6 @@ public class Article {
     @Setter
     private LocalDateTime writtenDate;
 
-
     @Setter
     @ManyToOne
     @JoinColumn(name = "board_id")
@@ -33,5 +31,4 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Comment> comments;
-
 }
