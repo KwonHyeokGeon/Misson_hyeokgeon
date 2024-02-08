@@ -7,6 +7,8 @@ import com.example.mission.repository.ArticleRepository;
 import com.example.mission.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +48,7 @@ public class ArticleService {
 
     // 전체 게시글 조회
     public List<ArticleDto> readAll() {
-        List<Article> articles = articleRepository.findAllByOrderByWrittenDateDesc();
+        Page<Article> articles = articleRepository.findAllByOrderByIdDesc(PageRequest.of(0,15));
         List<ArticleDto> articleDto = new ArrayList<>();
         for (Article article : articles) {
             articleDto.add(ArticleDto.from(article));

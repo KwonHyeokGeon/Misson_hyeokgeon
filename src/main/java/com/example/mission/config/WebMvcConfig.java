@@ -1,4 +1,4 @@
-package com.example.mission;
+package com.example.mission.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

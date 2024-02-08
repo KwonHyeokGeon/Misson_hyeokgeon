@@ -29,6 +29,18 @@ public class InitConfig {
         boardRepository.saveAll(boards);
 
         List<Article> articles = new ArrayList<>();
+
+        // pagination 용 더미 데이터
+        for (int i = 1; i < 20; i++) {
+            Article article = Article.builder().title("자유게시판 글 제목 " + i)
+                    .content("자유게시판 글 내용 " + i)
+                    .password("1111")
+                    .writtenDate(LocalDateTime.now())
+                    .board(boards.get(0))
+                    .comments(new ArrayList<>())
+                    .build();
+            articles.add(article);
+        }
         for (int i = 0; i < boards.size(); i++) {
             String title = generateTitle(i);
             String content = generateContent(i);
@@ -46,7 +58,9 @@ public class InitConfig {
         }
 
         articleRepository.saveAll(articles);
+
     }
+
     private String generateTitle(int index) {
         switch (index) {
             case 0:
